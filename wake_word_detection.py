@@ -2,8 +2,6 @@ import pvporcupine
 import pyaudio
 import struct
 import time
-from voice_recognition import recognize_speech
-from text_to_speech import speak_response
 
 ACCESS_KEY = "CiQyXwvgpRzR1cQAtp2Uw6MZ1UcAricT5dOBgiWqSimZv/GE1z2khQ=="
 
@@ -37,18 +35,7 @@ def listen_for_wake_word(callback):
                 if porcupine.process(pcm) >= 0:  # Wake word detected
                     print("Wake word detected!")
                     stream.stop_stream()  # Pause the stream instead of closing
-
-                    # Speak greeting
-                    speak_response("Hello Aditya, how are you today?")
-                    speak_response("Now listening to command.")
-
-                    print("Listening for command...")
-                    command = recognize_speech()
-
-                    if command:
-                        print(f"Command recognized: {command}")
-                        callback(command)
-
+                    callback()
                     stream.start_stream()  # Resume listening for wake word
                     
                     time.sleep(1)  # Avoid multiple triggers

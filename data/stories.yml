@@ -45,5 +45,25 @@ stories:
 
   - story: type in app
     steps:
-      - intent: type_in_app
-      - action: action_type_in_app
+      - intent: type_what_i_say
+      - action: action_type_what_i_say
+
+  - story: wake up elisa
+    steps:
+      - intent: wake_up_elisa
+      - action: utter_wake_up_elisa
+
+  - story: repeat after me
+    steps:
+      - intent: repeat_after_me
+      - action: utter_repeat_after_me
+
+  - story: current date and time
+    steps:
+      - intent: current_date_time
+      - action: action_current_date_time
+
+  - story: meaning of
+    steps:
+      - intent: meaning_of
+      - action: action_meaning_of

@@ -19,7 +19,8 @@ def process_command(command, sender="user1"):
 
         if response_data:
             # Get the first message from Rasa (you can modify this if Rasa returns multiple responses)
-            print("response" + response)
+            print("======================= response =======================")
+            print(response)
             return response_data[0]['text']
         else:
             return "Sorry, I didn't understand that."

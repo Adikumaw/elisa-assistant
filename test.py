@@ -1,17 +1,7 @@
-import sounddevice as sd
-import numpy as np
+from pynput.keyboard import Controller
+import time
 
-# Record a short clip to test microphone input
-fs = 44100  # Sample rate
-duration = 5  # seconds
+keyboard = Controller()
 
-print("Recording...")
-audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float64')
-sd.wait()
-print("Recording finished.")
-
-# Check if audio data contains any sound
-if np.any(audio_data):
-    print("Microphone is working!")
-else:
-    print("Microphone is not picking up sound.")
+time.sleep(2)  # Wait for 2 seconds before typing
+keyboard.type("Hello, this is a test!")

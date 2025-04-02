@@ -1,0 +1,6 @@
+report.txt
+notes.docx
+todo_list.csv
+data.json
+script.py
+index.html

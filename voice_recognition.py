@@ -1,4 +1,5 @@
 import speech_recognition as sr
+import simpleaudio as sa
 
 def recognize_speech():
     recognizer = sr.Recognizer()
@@ -13,6 +14,11 @@ def recognize_speech():
             recognizer.pause_threshold = 2  # Adjust to prevent early cutoff
             recognizer.non_speaking_duration = 0.5  # Small pauses allowed
             recognizer.energy_threshold = 400  # Set manually if needed
+
+            # play beep sound
+            wave_obj = sa.WaveObject.from_wave_file("beep.wav")
+            play_obj = wave_obj.play()
+            play_obj.wait_done()
 
             # Capture audio with timeout & phrase limit
             audio = recognizer.listen(source, timeout=10, phrase_time_limit=10)

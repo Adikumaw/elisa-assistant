@@ -9,62 +9,54 @@ nlu:
       - hello there
       - good morning
       - good evening
-      - moin
       - hey there
-      - let's go
       - hey dude
-      - goodmorning
-      - goodevening
       - good afternoon
+      - what's up
+      - howdy
 
   - intent: goodbye
     examples: |
-      - cu
-      - good by
-      - see you later
-      - good night
       - bye
       - goodbye
+      - see you later
+      - good night
       - have a nice day
       - see you around
-      - bye bye
-      - see you later
+      - farewell
+      - take care
 
   - intent: affirm
     examples: |
       - yes
-      - y
       - indeed
       - of course
       - that sounds good
       - correct
+      - absolutely
+      - sure
 
   - intent: deny
     examples: |
       - no
-      - n
       - never
       - I don't think so
-      - don't like that
-      - no way
       - not really
+      - absolutely not
+      - nope
 
   - intent: mood_great
     examples: |
       - perfect
       - great
       - amazing
-      - feeling like a king
       - wonderful
       - I am feeling very good
       - I am great
       - I am amazing
-      - I am going to save the world
-      - super stoked
-      - extremely good
-      - so so perfect
       - so good
-      - so perfect
+      - fantastic
+      - excellent
 
   - intent: mood_unhappy
     examples: |
@@ -72,53 +64,186 @@ nlu:
       - I am sad
       - I don't feel very well
       - I am disappointed
-      - super sad
-      - I'm so sad
-      - sad
       - very sad
       - unhappy
       - not good
-      - not very good
       - extremely sad
-      - so sad
+      - feeling down
+      - I feel terrible
 
   - intent: bot_challenge
     examples: |
       - are you a bot?
       - are you a human?
       - am I talking to a bot?
-      - am I talking to a human?
-
-  - intent: open_app
-    examples: |
-      - open [chrome](app_name)
-      - launch [firefox](app_name)
-      - open [notepad](app_name)
-      - open [word](app_name)
-
-  - intent: search_firefox
-    examples: |
-      - search [Python tutorials](query) on firefox
-      - look for [Rasa docs](query)
-      - find [machine learning articles](query) on firefox
-      - search for [latest tech news](query) on firefox
-
-  - intent: create_file
-    examples: |
-      - create a file named [report.txt](file_name)
-      - create [notes.docx](file_name)
-      - make [todo_list.csv](file_name)
-
-  - intent: type_in_app
-    examples: |
-      - type in [notepad](app_name)
-      - write in [word](app_name)
-      - type in [excel](app_name)
+      - are you an AI?
+      - are you real?
 
   - intent: wake_up_elisa
     examples: |
       - wake up elisa
       - elisa, wake up
       - hey elisa, wake up
+      - I need you, elisa
       - elisa, are you there?
-      - elisa, can you wake up?
+
+  - intent: repeat_after_me
+    examples: |
+      - repeat after me [this is crazy](query)
+      - repeat after me [can you say this](query)
+      - repeat after me [please repeat](query)
+      - repeat after me [say this for me](query)
+      - repeat after me [echo this](query)
+      - repeat after me [can you mimic me](query)
+      - repeat after me [I want you to repeat](query)
+      - repeat after me [can you say the following](query)
+      - repeat after me [please echo this](query)
+      - repeat after me [repeat what I say](query)
+      - repeat after me [say this out loud](query)
+
+  - intent: current_date_time
+    examples: |
+      - what is the current date and time?
+      - tell me the date and time
+      - what time is it?
+      - what is today's date?
+      - give me the current date and time
+      - can you tell me the date and time?
+      - what is the time right now?
+      - what day is it today?
+      - what's the current date?
+      - can you tell me the current time?
+
+  - intent: open_app
+    examples: |
+      - Open [Chrome](app_name)
+      - Launch [Firefox](app_name)
+      - Start [Notepad](app_name)
+      - Run [Spotify](app_name)
+      - Execute [Terminal](app_name)
+      - Boot up [Discord](app_name)
+      - Open [VLC Media Player](app_name)
+      - Launch [Calculator](app_name)
+      - Start [Sublime Text](app_name)
+      - Activate [Teams](app_name)
+      - Initiate [Outlook](app_name)
+      - Bring up [Edge Browser](app_name)
+      - Fire up [Android Studio](app_name)
+      - Get [VS Code](app_name) running
+      - Open [Photoshop](app_name) now
+      - Could you start [Zoom](app_name)?
+      - I need [PyCharm](app_name) opened
+      - Please launch [Slack](app_name)
+      - Execute [Telegram](app_name) for me
+      - Turn on [File Explorer](app_name)
+      - Let’s start [Audacity](app_name)
+      - Open up [Thunderbird](app_name)
+
+  - intent: search_firefox
+    examples: |
+      - Search [Python tutorials](query)
+      - Find articles about [machine learning](query)
+      - Google [best laptops for programming](query)
+      - Look up [how to cook pasta](query)
+      - Show me results for [latest AI news](query)
+      - Research [cloud computing trends](query)
+      - Find [open-source software](query)
+      - Can you search for [new programming frameworks](query)?
+      - Search for [ways to improve coding skills](query)
+      - I need info on [cheap gaming laptops](query)
+      - Google [best Python libraries for data science](query)
+      - Find articles on [cybersecurity trends](query)
+      - Can you look up [quantum computing basics](query)?
+      - Research [how to invest in stocks](query)
+      - Look for [upcoming Marvel movies](query)
+      - Tell me about [history of Linux](query)
+      - Fetch results for [deep learning models](query)
+
+  - intent: create_file
+    examples: |
+      - Create a file [report.txt](file_name)
+      - Generate a file named [todo_list.csv](file_name)
+      - Make a document called [notes.docx](file_name)
+      - Produce a file [summary.pdf](file_name)
+      - Construct a file named [budget.xlsx](file_name)
+      - Start a new file [project.pptx](file_name)
+      - Create [script.py](file_name)
+      - Make a new document [index.html](file_name)
+      - Generate a text file [readme.md](file_name)
+      - Start a spreadsheet [data.csv](file_name)
+      - Create a markdown file called [notes.md](file_name)
+      - Open a configuration file [config.json](file_name)
+      - I need a LaTeX file [paper.tex](file_name)
+      - Make a log file named [error.log](file_name)
+      - Generate a database file [database.sqlite](file_name)
+      - Let’s create a YAML file [settings.yml](file_name)
+      - Start a new JSON file [data.json](file_name)
+      - Open up a CSS file [styles.css](file_name)
+      - Produce an XML file [feed.xml](file_name)
+
+  - intent: type_what_i_say
+    examples: |
+      - Type [Hello World](text)
+      - Type this: [I love coding](text)
+      - Type [Life is beautiful](text)
+      - Write [Buy milk and eggs](text)
+      - Write this: [Meeting at 3 PM](text)
+      - Copy [Reminder to call mom](text)
+      - Copy this: [Finish the report by tomorrow](text)
+      - Enter [Learning never stops](text)
+      - Enter this: [Happy birthday to you](text)
+      - Dictate [See you at the event](text)
+      - Dictate this: [Let's meet at 5 PM](text)
+      - Log [Check the email for details](text)
+      - Log this: [Call the client after lunch](text)
+      - Jot [The quick brown fox jumps over the lazy dog](text)
+      - Jot this down: [Code review is scheduled for Monday](text)
+      - Transcribe [Success comes with hard work](text)
+      - Transcribe this: [Always stay positive](text)
+      - Input [Coffee break at 4 PM](text)
+      - Input this: [Server restarted successfully](text)
+      - Take note: [Submit the assignment before noon](text)
+      - Take note of this: [Remember to book flight tickets](text)
+      - Type [Mangoes are my favorite fruit](text)
+      - Type this [Where is my laptop](text)
+      - Write [Did you complete the assignment](text)
+      - Write this [Let's go out for dinner](text)
+      - Enter [Check the system logs](text)
+      - Enter this [Meeting rescheduled to 6 PM](text)
+      - Copy [Chocolate cake recipe](text)
+      - Copy this [Update the software to the latest version](text)
+      - Dictate [Call John after the meeting](text)
+      - Dictate this [Sunsets are beautiful at the beach](text)
+
+  - intent: meaning_of
+    examples: |
+      - What is the meaning of [black hole](words)?
+      - What is the meaning of [machine learning](words)?
+      - What is the meaning of [blockchain](words)?
+      - What is the meaning of [deep learning](words)?
+      - What is the meaning of [serverless computing](words)?
+      - Define [artificial intelligence](words)
+      - Define [cybersecurity](words)
+      - Define [quantum mechanics](words)
+      - Define [data mining](words)
+      - Define [augmented reality](words)
+      - Explain [event horizon](words)
+      - Explain [cloud computing](words)
+      - Explain [computer vision](words)
+      - Explain [edge computing](words)
+      - Explain [metaverse](words)
+      - What does [neural network](words) mean?
+      - What does [cryptography](words) mean?
+      - What does [natural language processing](words) mean?
+      - What does [virtual reality](words) mean?
+      - What does [big data](words) mean?
+      - Tell me about [artificial intelligence](words)
+      - Tell me about [serverless computing](words)
+      - Tell me about [data mining](words)
+      - Tell me about [augmented reality](words)
+      - Tell me about [machine learning](words)
+      - Can you explain [quantum mechanics](words)?
+      - Can you explain [cloud computing](words)?
+      - Can you explain [blockchain](words)?
+      - Can you explain [deep learning](words)?
+      - Can you explain [cybersecurity](words)?

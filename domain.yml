@@ -11,36 +11,49 @@ intents:
   - open_app
   - search_firefox
   - create_file
-  - type_in_app
+  - type_what_i_say
   - wake_up_elisa
+  - repeat_after_me
+  - current_date_time
+  - meaning_of
 
 entities:
   - app_name
   - file_name
   - query
+  - words
+  - text
 
 slots:
   app_name:
     type: text
     mappings:
-      - type: from_text
-        conditions:
-          - active_loop: null
+      - type: from_entity
+        entity: app_name
 
   file_name:
     type: text
     mappings:
-      - type: from_text
-        conditions:
-          - active_loop: null
+      - type: from_entity
+        entity: file_name
 
   query:
     type: text
     mappings:
-      - type: from_text
-        conditions:
-          - active_loop: null
+      - type: from_entity
+        entity: query
 
+  words:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: words
+
+  text:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: text
 
 responses:
   utter_greet:
@@ -60,26 +73,41 @@ responses:
     - text: "Bye!"
 
   utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
+    - text: "I am elisa, powered by Rasa."
 
-  # Added missing responses
-  utter_open_app:
-    - text: "Opening {app_name}..."
+  utter_wake_up_elisa:
+    - text: "Yes, I'm here! What do you need?"
+    - text: "Hello! How can I help you today?"
+    - text: "I’m awake. Ready for commands."
+    - text: "Awake and operational. What's up?"
+    - text: "Hi there! What can I do for you?"
+    - text: "I'm up! Let’s get started."
+    - text: "Elisa reporting for duty!"
 
-  utter_search_firefox:
-    - text: "Searching for {query} on Firefox..."
-
-  utter_create_file:
-    - text: "Creating file named {file_name}..."
-
-  utter_type_in_app:
-    - text: "Typing in {app_name}..."
+  utter_repeat_after_me:
+    - condition:
+        - type: slot
+          name: query
+          value: null
+      text: "I didn't catch that. Can you say it again?"
+    - text: "Okay, repeating: {query}"
+    - text: "Sure! Here it is: {query}"
+    - text: "Alright, here you go: {query}"
+    - text: "No problem, saying: {query}"
+    - text: "Got it! Repeating: {query}"
+    - text: "Of course! {query}"
+    - text: "Here’s what you said: {query}"
+    - text: "Alright! {query}"
+    - text: "Why not? {query}"
+    - text: "Echoing: {query}"
 
 actions:
   - action_open_app
   - action_search_firefox
   - action_create_file
-  - action_type_in_app
+  - action_type_what_i_say
+  - action_current_date_time
+  - action_meaning_of
 
 session_config:
   session_expiration_time: 60
