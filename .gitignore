@@ -1,0 +1,10 @@
+# ignoring venv, .rasa, .vscode, __pycache__, tests
+# Python
+__pycache__/
+.vscode/
+.venv/
+venv/
+# Rasa
+.rasa/
+# Tests
+tests/

@@ -1,0 +1,49 @@
+version: "3.1"
+
+stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
+
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: open app
+    steps:
+      - intent: open_app
+      - action: action_open_app
+
+  - story: search firefox
+    steps:
+      - intent: search_firefox
+      - action: action_search_firefox
+
+  - story: create file
+    steps:
+      - intent: create_file
+      - action: action_create_file
+
+  - story: type in app
+    steps:
+      - intent: type_in_app
+      - action: action_type_in_app

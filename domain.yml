@@ -1,0 +1,86 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - open_app
+  - search_firefox
+  - create_file
+  - type_in_app
+  - wake_up_elisa
+
+entities:
+  - app_name
+  - file_name
+  - query
+
+slots:
+  app_name:
+    type: text
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: null
+
+  file_name:
+    type: text
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: null
+
+  query:
+    type: text
+    mappings:
+      - type: from_text
+        conditions:
+          - active_loop: null
+
+
+responses:
+  utter_greet:
+    - text: "Hello! How can I help you?"
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye!"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  # Added missing responses
+  utter_open_app:
+    - text: "Opening {app_name}..."
+
+  utter_search_firefox:
+    - text: "Searching for {query} on Firefox..."
+
+  utter_create_file:
+    - text: "Creating file named {file_name}..."
+
+  utter_type_in_app:
+    - text: "Typing in {app_name}..."
+
+actions:
+  - action_open_app
+  - action_search_firefox
+  - action_create_file
+  - action_type_in_app
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

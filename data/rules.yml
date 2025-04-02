@@ -1,0 +1,32 @@
+version: "3.1"
+
+rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Open an app when the user asks
+    steps:
+      - intent: open_app
+      - action: action_open_app
+
+  - rule: Search on Firefox when the user asks
+    steps:
+      - intent: search_firefox
+      - action: action_search_firefox
+
+  - rule: Create a file when the user asks
+    steps:
+      - intent: create_file
+      - action: action_create_file
+
+  - rule: Type in an app when the user asks
+    steps:
+      - intent: type_in_app
+      - action: action_type_in_app
