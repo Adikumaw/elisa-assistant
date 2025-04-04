@@ -39,7 +39,6 @@ def fetch_weather(location: str) :
 
     response = requests.get(base_url, params=params)
     if response.status_code == 200:
-        print(response.json())
         return response.json()
     return None
 

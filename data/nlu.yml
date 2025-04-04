@@ -38,6 +38,9 @@ nlu:
       - I would love to
       - Tell me more
       - Show me more details
+      - Ok
+      - go for it
+      - sure thing
 
   - intent: deny
     examples: |
@@ -274,6 +277,11 @@ nlu:
       - Can you explain [blockchain](words)?
       - Can you explain [deep learning](words)?
       - Can you explain [cybersecurity](words)?
+      - Do you know about [facebook] (words)
+      - Do you know about [popsicles] (words)
+      - Do you know about [mark zukerberg] (words)
+      - Do you know about [Narendra modi] (words)
+      - Do you know about [bhurj khalifa] (words)
 
   - intent: weather_update
     examples: |

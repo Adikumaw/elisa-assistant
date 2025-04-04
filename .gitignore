@@ -8,3 +8,4 @@ venv/
 .rasa/
 # Tests
 tests/
+response.wav
