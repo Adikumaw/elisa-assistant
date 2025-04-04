@@ -63,7 +63,21 @@ stories:
       - intent: current_date_time
       - action: action_current_date_time
 
-  - story: meaning of
+  - story: meaning of and stop
     steps:
       - intent: meaning_of
       - action: action_meaning_of
+      - intent: deny
+      - action: utter_okay
+
+  - story: meaning of and search
+    steps:
+      - intent: meaning_of
+      - action: action_meaning_of
+      - intent: affirm
+      - action: action_open_browser
+
+  - story: weather update
+    steps:
+      - intent: weather_update
+      - action: action_weather_update

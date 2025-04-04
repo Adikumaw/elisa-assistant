@@ -50,3 +50,8 @@ rules:
     steps:
       - intent: meaning_of
       - action: action_meaning_of
+
+  - rule: respond for weather update
+    steps:
+      - intent: weather_update
+      - action: action_weather_update

@@ -16,6 +16,7 @@ intents:
   - repeat_after_me
   - current_date_time
   - meaning_of
+  - weather_update
 
 entities:
   - app_name
@@ -57,49 +58,77 @@ slots:
 
 responses:
   utter_greet:
-    - text: "Hello! How can I help you?"
+    - text: "Hey there! What’s up?"
+    - text: "Oh, hi! How’s your day going?"
+    - text: "Hello! Need something?"
+    - text: "Hey! What can I do for you?"
+    - text: "Hi! What’s on your mind?"
 
   utter_cheer_up:
-    - text: "Here is something to cheer you up:"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
+    - text: "Here’s a little something to lift your mood!"
+    - text: "Feeling down? Let’s fix that!"
+    - text: "Don't worry, I got you! Check this out."
+    - text: "Sending some good vibes your way!"
+    - text: "Let's turn that frown upside down!"
 
   utter_did_that_help:
-    - text: "Did that help you?"
+    - text: "Did that work for you?"
+    - text: "Better now?"
+    - text: "Did that do the trick?"
+    - text: "Hope that helped! Need anything else?"
+    - text: "Was that useful?"
 
   utter_happy:
-    - text: "Great, carry on!"
+    - text: "Awesome! Keep going!"
+    - text: "Glad to hear that! You rock!"
+    - text: "Great! Keep it up!"
+    - text: "Perfect! Let’s keep the good vibes rolling!"
+    - text: "Nice! That’s what I like to hear!"
+
+  utter_okay:
+    - text: "Got it! Just call me if you need me."
+    - text: "Alright! I’m here if you need anything else."
+    - text: "Cool, let me know if something comes up!"
+    - text: "Sure thing! Take care."
+    - text: "Okay! I’m always here if you need me."
 
   utter_goodbye:
-    - text: "Bye!"
+    - text: "Bye! Take care!"
+    - text: "Catch you later!"
+    - text: "See ya! Stay awesome!"
+    - text: "Goodbye! Talk soon!"
+    - text: "Bye-bye! Don’t miss me too much!"
 
   utter_iamabot:
-    - text: "I am elisa, powered by Rasa."
+    - text: "I’m Elisa, your smart AI assistant."
+    - text: "Yep, I’m Elisa, powered by Rasa!"
+    - text: "I go by Elisa, your AI assistant."
+    - text: "Call me Elisa! I’m here to assist."
+    - text: "Elisa at your service!"
 
   utter_wake_up_elisa:
-    - text: "Yes, I'm here! What do you need?"
-    - text: "Hello! How can I help you today?"
-    - text: "I’m awake. Ready for commands."
-    - text: "Awake and operational. What's up?"
-    - text: "Hi there! What can I do for you?"
-    - text: "I'm up! Let’s get started."
-    - text: "Elisa reporting for duty!"
+    - text: "Yep, I’m here! What’s up?"
+    - text: "Oh, hey! Ready when you are."
+    - text: "Awake and at your service!"
+    - text: "Hello! What’s on your mind?"
+    - text: "I’m up! What do you need?"
+    - text: "Hey, I’m here! Let’s do this."
+    - text: "Reporting for duty! What’s next?"
 
   utter_repeat_after_me:
     - condition:
         - type: slot
           name: query
           value: null
-      text: "I didn't catch that. Can you say it again?"
-    - text: "Okay, repeating: {query}"
-    - text: "Sure! Here it is: {query}"
-    - text: "Alright, here you go: {query}"
-    - text: "No problem, saying: {query}"
-    - text: "Got it! Repeating: {query}"
+      text: "Hmm, I didn’t catch that. Could you say it again?"
+    - text: "Alright, repeating after you: {query}"
+    - text: "Sure thing! Here you go: {query}"
+    - text: "Got it! Here’s what you said: {query}"
     - text: "Of course! {query}"
-    - text: "Here’s what you said: {query}"
-    - text: "Alright! {query}"
+    - text: "Okay, here’s your echo: {query}"
     - text: "Why not? {query}"
-    - text: "Echoing: {query}"
+    - text: "Gotcha! {query}"
+    - text: "Echo mode activated: {query}"
 
 actions:
   - action_open_app
@@ -108,6 +137,8 @@ actions:
   - action_type_what_i_say
   - action_current_date_time
   - action_meaning_of
+  - action_open_browser
+  - action_weather_update
 
 session_config:
   session_expiration_time: 60

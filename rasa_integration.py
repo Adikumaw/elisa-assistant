@@ -1,4 +1,3 @@
-# rasa_integration.py
 import requests
 
 RASA_URL = "http://localhost:5005/webhooks/rest/webhook"
@@ -9,21 +8,42 @@ def process_command(command, sender="user1"):
 
     :param command: User's voice command.
     :param sender: Unique sender ID to identify the conversation.
-    :return: The response text from Rasa.
+    :return: List of response texts and a flag indicating whether to continue the conversation.
     """
     payload = {"sender": sender, "message": command}
 
     try:
         response = requests.post(RASA_URL, json=payload)
         response_data = response.json()
+        messages = []
+        continue_conversation = False
 
         if response_data:
-            # Get the first message from Rasa (you can modify this if Rasa returns multiple responses)
+            print("======================= response data =======================")
+            print(response_data)
+
+            for message in response_data:
+                # Case 1: Response has a direct "text" key
+                if "text" in message:
+                    messages.append(message["text"])
+
+                # Case 2: Response is inside "custom"
+                elif "custom" in message:
+                    custom_data = message["custom"]
+                    if "text" in custom_data:
+                        messages.append(custom_data["text"])
+                    if custom_data.get("continue"):  # Check "continue" flag
+                        continue_conversation = True
+
             print("======================= response =======================")
-            print(response)
-            return response_data[0]['text']
+            for msg in messages:
+                print(msg)
+            print(f"Continue conversation: {continue_conversation}")
+
+            return messages, continue_conversation
         else:
-            return "Sorry, I didn't understand that."
+            return ["Sorry, I didn't understand that."], False
+
     except requests.exceptions.RequestException as e:
         print(f"Error sending request to Rasa: {e}")
-        return "I'm having trouble connecting to the server."
+        return ["I'm having trouble connecting to the server."], False
