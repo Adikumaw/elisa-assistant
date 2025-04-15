@@ -98,17 +98,35 @@ nlu:
 
   - intent: repeat_after_me
     examples: |
-      - repeat after me [this is crazy](query)
-      - repeat after me [can you say this](query)
-      - repeat after me [please repeat](query)
-      - repeat after me [say this for me](query)
-      - repeat after me [echo this](query)
-      - repeat after me [can you mimic me](query)
-      - repeat after me [I want you to repeat](query)
-      - repeat after me [can you say the following](query)
-      - repeat after me [please echo this](query)
-      - repeat after me [repeat what I say](query)
-      - repeat after me [say this out loud](query)
+      - can you repeat [this is crazy](query)
+      - say [hello world](query)
+      - please repeat [what I just said](query)
+      - could you say [you are my best friend](query)
+      - echo [you are doing great](query)
+      - I want you to repeat [everything is okay](query)
+      - repeat this for me: [stay positive](query)
+      - would you mind saying [have a nice day](query)
+      - mimic me and say [I love coding](query)
+      - repeat what I say: [this is fun](query)
+      - say out loud [you got this](query)
+      - please say [good job](query)
+      - I need you to repeat [we're on the same page](query)
+      - say after me [I will not quit](query)
+      - repeat this sentence [this is the way](query)
+      - say this for me: [you matter](query)
+      - just say [never give up](query)
+      - say these words [focus and finish](query)
+      - repeat this: [keep pushing forward](query)
+      - repeat exactly this [believe in yourself](query)
+      - read this out loud [you can do it](query)
+      - say this line [consistency is key](query)
+      - please echo the phrase [nothing is impossible](query)
+      - repeat after me [I am confident](query)
+      - can you say the phrase [I will succeed](query)
+      - I want you to say [patience and persistence](query)
+      - say the following [work hard, dream big](query)
+      - repeat back to me [I trust the process](query)
+      - Repeat after me. [Bunty, are you crazy](query)?
 
   - intent: current_date_time
     examples: |
@@ -305,3 +323,95 @@ nlu:
       - How warm is it outside?
       - Is the weather nice today?
       - Should I take a jacket?
+
+  - intent: set_reminder
+    examples: |
+      - remind me to [call mom](task_name) at [6](time)
+      - remind me to [take the medicine](task_name) at [9 am](time)
+      - remind me to [water the plants](task_name) in [10 minutes](time)
+      - set a reminder to [pay the electricity bill](task_name) tomorrow at [8](time)
+      - remind me to [do my homework](task_name) at [4:30](time)
+      - can you remind me to [book the flight tickets](task_name) at [11 pm](time)
+      - remind me to [check the stock market](task_name) in [2 hours](time)
+      - I need a reminder to [go for a walk](task_name) at [6:15](time)
+      - remind me about [yoga class](task_name) tomorrow morning at [7](time)
+      - set a reminder for [zoom call with team](task_name) at [3 pm](time)
+      - schedule a reminder to [take out the trash](task_name) at [8:45](time)
+      - make a reminder to [meet Riya](task_name) at [5](time)
+      - remind me to [call the bank](task_name) in [45 minutes](time)
+      - help me remember to [submit the assignment](task_name) at [midnight](time)
+      - remind me about [coding session](task_name) in [1 hour](time)
+      - please remind me to [reply to the emails](task_name) at [2:15](time)
+      - remind me to [feed the cat](task_name) every day at [9 am](time)
+      - I need to be reminded to [get groceries](task_name) at [7:30 pm](time)
+      - tell me when it's time to [start cooking](task_name) at [6 pm](time)
+      - add a reminder to [check for updates](task_name) in [20 minutes](time)
+
+  - intent: list_reminders
+    examples: |
+      - do I have any reminders?
+      - what reminders are set?
+      - show my reminders
+      - what do I have to do?
+      - what tasks have I asked you to remind me about?
+      - can you tell me my reminders?
+      - list all my reminders
+      - give me a list of reminders
+      - what are my upcoming reminders?
+      - show me all scheduled reminders
+      - remind me what I set
+      - what did I ask you to remind me?
+      - any tasks pending?
+      - are there any reminders set?
+      - tell me the list of reminders
+      - show me pending reminders
+      - what’s on my reminder list?
+      - what should I not forget?
+      - anything I need to do today?
+      - what things am I supposed to remember?
+
+  - intent: update_reminder
+    examples: |
+      - I want to update the reminder for [call mom](task_name)
+      - change the time for [gym workout](task_name)
+      - reschedule [team meeting](task_name)
+      - update the [doctor appointment](task_name) to 6 pm
+      - shift [homework](task_name) to tomorrow 5
+      - can you move [laundry](task_name) to 9:30?
+      - modify [medicine](task_name) reminder to 8 am
+      - push [assignment](task_name) to evening
+      - I need to change the timing of [buy groceries](task_name)
+      - delay [yoga class](task_name) to 7:30 am
+      - change reminder time for [coding session](task_name)
+      - adjust the time for [take out trash](task_name)
+      - postpone [call with boss](task_name) to 5:15
+      - shift the reminder for [evening walk](task_name)
+      - move the [zoom call](task_name) to later
+      - update [stock check](task_name) to morning
+      - set [meeting](task_name) for 3 pm instead
+      - modify [check system updates](task_name) timing
+      - reschedule my [reminder to water plants](task_name)
+      - change [dinner](task_name) reminder to 8:45
+
+  - intent: remove_reminder
+    examples: |
+      - I want to remove [wash clothes](task_name)
+      - delete the reminder for [doctor appointment](task_name)
+      - cancel [feed the dog](task_name)
+      - remove [meeting](task_name) reminder
+      - get rid of [call dad](task_name)
+      - clear [gym](task_name) from my reminders
+      - remove the [laundry](task_name) reminder
+      - take off [team sync](task_name)
+      - cancel the task [assignment](task_name)
+      - drop the reminder for [zoom call](task_name)
+      - delete [evening walk](task_name)
+      - no need to remind about [pay bills](task_name)
+      - erase [send the report](task_name)
+      - take off the reminder for [buy vegetables](task_name)
+      - remove [weekly cleaning](task_name)
+      - cancel [call Riya](task_name)
+      - stop reminding me about [homework](task_name)
+      - delete the reminder for [feed the cat](task_name)
+      - don't remind me to [reply to emails](task_name)
+      - remove the task [record expenses](task_name)

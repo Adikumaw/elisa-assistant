@@ -17,6 +17,10 @@ intents:
   - current_date_time
   - meaning_of
   - weather_update
+  - set_reminder
+  - list_reminders
+  - remove_reminder
+  - update_reminder
 
 entities:
   - app_name
@@ -24,6 +28,9 @@ entities:
   - query
   - words
   - text
+  - task_name
+  - time
+  - TIME
 
 slots:
   app_name:
@@ -55,6 +62,18 @@ slots:
     mappings:
       - type: from_entity
         entity: text
+
+  task_name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: task_name
+
+  time:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: time
 
 responses:
   utter_greet:
@@ -139,6 +158,10 @@ actions:
   - action_meaning_of
   - action_open_browser
   - action_weather_update
+  - action_set_reminder
+  - action_list_reminders
+  - action_remove_reminder
+  - action_update_reminder
 
 session_config:
   session_expiration_time: 60

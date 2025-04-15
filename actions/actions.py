@@ -5,13 +5,13 @@ from rasa_sdk.events import SlotSet
 import webbrowser
 import wikipedia
 import os
-from utils import open_application, fetch_weather, get_user_location
-from datetime import datetime
+from utils import open_application, fetch_weather, get_user_location, load_reminders, save_reminders, schedule_reminder
+from datetime import datetime, timedelta, timezone
 import random
 from typing import Any, Text, Dict, List
 from pynput.keyboard import Controller
 import time
-
+import difflib
 
 
 class ActionOpenApp(Action):
@@ -194,7 +194,6 @@ class ActionOpenBrowser(Action):
 
         return []
 
-
 class ActionWeatherUpdate(Action):
     def name(self) -> Text:
         return "action_weather_update"
@@ -224,4 +223,157 @@ class ActionWeatherUpdate(Action):
         else:
             dispatcher.utter_message(text=f"Sorry, I couldn't fetch the weather for {location}. Please try again later.")
 
+        return []
+    
+class ActionSetReminder(Action):
+    def name(self) -> Text:
+        return "action_set_reminder"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        task = tracker.get_slot("task_name") or next(tracker.get_latest_entity_values("task_name"), None)
+        time_value = tracker.get_slot("time") or next(tracker.get_latest_entity_values("time"), None)
+
+        if not task or not time_value:
+            dispatcher.utter_message(text="I need both the task and the time for the reminder.")
+            return []
+
+        try:
+            reminder_time = datetime.fromisoformat(time_value)
+        except Exception as e:
+            print(f"[Reminder Parse Error] Couldn't parse time: {time_value}, error: {e}")
+            dispatcher.utter_message(text="I couldn't understand the time you mentioned. Try saying 'remind me at 5pm'.")
+            return []
+
+        reminders = load_reminders()
+        reminders[task] = reminder_time.isoformat()
+        save_reminders(reminders)
+
+        # Schedule reminders
+        ten_minutes_before = reminder_time - timedelta(minutes=10)
+        schedule_reminder(task, ten_minutes_before.isoformat(), early=True)
+        schedule_reminder(task, reminder_time.isoformat(), early=False)
+
+        dispatcher.utter_message(
+            text=f"✅ Reminder set for '{task}' at {reminder_time.strftime('%I:%M %p')}."
+        )
+        return []
+
+class ActionListReminders(Action):
+    def name(self) -> Text:
+        return "action_list_reminders"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        now = datetime.now(timezone.utc)  # make `now` timezone-aware in UTC
+        reminders = load_reminders()
+        active_reminders = {}
+
+        for task, time_str in reminders.items():
+            try:
+                reminder_time = datetime.fromisoformat(time_str)
+
+                # Ensure both are timezone-aware
+                if reminder_time.tzinfo is None:
+                    reminder_time = reminder_time.replace(tzinfo=timezone.utc)
+
+                if reminder_time > now:
+                    active_reminders[task] = time_str
+            except Exception as e:
+                print(f"[Reminder Check] Failed to parse time for {task}: {e}")
+
+
+        # Overwrite with filtered active ones
+        save_reminders(active_reminders)
+
+        if not active_reminders:
+            dispatcher.utter_message(text="You don't have any active reminders.")
+            return []
+
+        message = "Here are your current reminders:\n"
+        for task, time in active_reminders.items():
+            formatted_time = datetime.fromisoformat(time).strftime('%I:%M %p')
+            message += f"• {task} at {formatted_time}\n"
+
+        dispatcher.utter_message(text=message)
+        dispatcher.utter_message(text="Would you like to update the time for a task or remove one?")
+        return []
+
+class ActionRemoveReminder(Action):
+    def name(self) -> Text:
+        return "action_remove_reminder"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        task = next(tracker.get_latest_entity_values("task_name"), None)
+        reminders = load_reminders()
+
+        if not reminders:
+            dispatcher.utter_message(text="You don't have any reminders set.")
+            return []
+
+        # 🧠 Use fuzzy matching to find the best match
+        task_names = list(reminders.keys())
+        best_match = difflib.get_close_matches(task, task_names, n=1, cutoff=0.5)  # cutoff = confidence threshold
+
+        if best_match:
+            matched_task = best_match[0]
+            reminders.pop(matched_task)
+            save_reminders(reminders)
+            dispatcher.utter_message(text=f"✅ Removed the reminder for '{matched_task}'.")
+        else:
+            dispatcher.utter_message(text="❌ Couldn't find any matching reminder.")
+        return []
+
+class ActionUpdateReminder(Action):
+    def name(self) -> Text:
+        return "action_update_reminder"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        task = next(tracker.get_latest_entity_values("task_name"), None)
+        new_time = tracker.get_slot("time")
+
+        reminders = load_reminders()
+
+        if not task or not new_time:
+            dispatcher.utter_message(text="Please specify both the task and the new time.")
+            return []
+
+        # 🔍 Fuzzy match task
+        task_names = list(reminders.keys())
+        best_match = difflib.get_close_matches(task, task_names, n=1, cutoff=0.5)
+
+        if not best_match:
+            dispatcher.utter_message(text="Couldn't find a matching reminder to update.")
+            return []
+
+        matched_task = best_match[0]
+
+        try:
+            updated_time = datetime.fromisoformat(new_time)
+        except Exception:
+            # updated_time = datetime.now() + timedelta(minutes=30)
+            dispatcher.utter_message(text="Couldn't understand the new time. Please try again.")
+            return []
+
+        # 🔁 Update in the reminder JSON
+        reminders[matched_task] = updated_time.isoformat()
+        save_reminders(reminders)
+
+        # 📆 Re-schedule the reminder with dual notifications
+        schedule_reminder(matched_task, (updated_time - timedelta(minutes=10)).isoformat(), early=True)
+        schedule_reminder(matched_task, updated_time.isoformat(), early=False)
+
+        dispatcher.utter_message(
+            text=f"🕒 Reminder for '{matched_task}' updated to {updated_time.strftime('%Y-%m-%d %H:%M')}."
+        )
         return []

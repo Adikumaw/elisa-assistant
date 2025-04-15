@@ -23,6 +23,6 @@ def speak_response(response):
             sys.stdout, sys.stderr = old_stdout, old_stderr  # Restore stdout and stderr
 
     # Play the generated speech
-    wave_obj = sa.WaveObject.from_wave_file(output_file)
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+    sa.WaveObject.from_wave_file(output_file).play().wait_done()
+    # play_obj = wave_obj.play()
+    # play_obj.wait_done()

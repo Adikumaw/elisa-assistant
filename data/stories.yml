@@ -28,56 +28,74 @@ stories:
       - intent: deny
       - action: utter_goodbye
 
-  - story: open app
-    steps:
-      - intent: open_app
-      - action: action_open_app
+  # - story: open app
+  #   steps:
+  #     - intent: open_app
+  #     - action: action_open_app
 
-  - story: search firefox
-    steps:
-      - intent: search_firefox
-      - action: action_search_firefox
+  # - story: search firefox
+  #   steps:
+  #     - intent: search_firefox
+  #     - action: action_search_firefox
 
-  - story: create file
-    steps:
-      - intent: create_file
-      - action: action_create_file
+  # - story: create file
+  #   steps:
+  #     - intent: create_file
+  #     - action: action_create_file
 
-  - story: type in app
-    steps:
-      - intent: type_what_i_say
-      - action: action_type_what_i_say
+  # - story: type in app
+  #   steps:
+  #     - intent: type_what_i_say
+  #     - action: action_type_what_i_say
 
-  - story: wake up elisa
-    steps:
-      - intent: wake_up_elisa
-      - action: utter_wake_up_elisa
+  # - story: wake up elisa
+  #   steps:
+  #     - intent: wake_up_elisa
+  #     - action: utter_wake_up_elisa
 
-  - story: repeat after me
-    steps:
-      - intent: repeat_after_me
-      - action: utter_repeat_after_me
+  # - story: repeat after me
+  #   steps:
+  #     - intent: repeat_after_me
+  #     - action: utter_repeat_after_me
 
-  - story: current date and time
-    steps:
-      - intent: current_date_time
-      - action: action_current_date_time
+  # - story: current date and time
+  #   steps:
+  #     - intent: current_date_time
+  #     - action: action_current_date_time
 
-  - story: meaning of and stop
+  - story: user denies meaning search
     steps:
-      - intent: meaning_of
       - action: action_meaning_of
       - intent: deny
       - action: utter_okay
 
   - story: meaning of and search
     steps:
-      - intent: meaning_of
       - action: action_meaning_of
       - intent: affirm
       - action: action_open_browser
 
-  - story: weather update
-    steps:
-      - intent: weather_update
-      - action: action_weather_update
+  # - story: weather update
+  #   steps:
+  #     - intent: weather_update
+  #     - action: action_weather_update
+
+  # - story: set reminder
+  #   steps:
+  #     - intent: set_reminder
+  #     - action: action_set_reminder
+
+  # - story: list reminders
+  #   steps:
+  #     - intent: list_reminders
+  #     - action: action_list_reminders
+
+  # - story: remove reminder
+  #   steps:
+  #     - intent: remove_reminder
+  #     - action: action_remove_reminder
+
+  # - story: update reminder
+  #   steps:
+  #     - intent: update_reminder
+  #     - action: action_update_reminder

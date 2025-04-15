@@ -49,6 +49,14 @@ pipeline:
     drop_rate: 0.2 # Helps generalization
 
   - name: EntitySynonymMapper
+
+  - name: DucklingEntityExtractor
+    url: http://localhost:8000
+    dimensions: ["time", "duration"]
+    locale: "en_US"
+    timezone: "Asia/Kolkata"
+    timeout: 3
+
   - name: ResponseSelector
     epochs: 100
     constrain_similarities: true

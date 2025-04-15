@@ -55,3 +55,23 @@ rules:
     steps:
       - intent: weather_update
       - action: action_weather_update
+
+  - rule: Set a reminder when the user asks
+    steps:
+      - intent: set_reminder
+      - action: action_set_reminder
+
+  - rule: List reminders when the user asks
+    steps:
+      - intent: list_reminders
+      - action: action_list_reminders
+
+  - rule: Remove a reminder when the user asks
+    steps:
+      - intent: remove_reminder
+      - action: action_remove_reminder
+
+  - rule: Update a reminder when the user asks
+    steps:
+      - intent: update_reminder
+      - action: action_update_reminder

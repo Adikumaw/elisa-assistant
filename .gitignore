@@ -9,3 +9,6 @@ venv/
 # Tests
 tests/
 response.wav
+whisper.cpp/
+reminder_jobs.sqlite
+models/
