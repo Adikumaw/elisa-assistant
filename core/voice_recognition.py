@@ -2,14 +2,10 @@ import pyaudio
 import wave
 import webrtcvad
 import collections
-import struct
 import subprocess
 import simpleaudio as sa
 import uuid
 import os
-
-os.environ["PYTHONWARNINGS"] = "ignore"
-
 
 # === CONFIGURABLE SETTINGS ===
 RATE = 16000
@@ -19,9 +15,17 @@ FRAME_DURATION = 30  # in ms
 CHUNK = int(RATE * FRAME_DURATION / 1000)
 MAX_SILENCE_FRAMES = int(1000 / FRAME_DURATION * 1.0)  # 1 sec silence
 VAD_AGGRESSIVENESS = 2  # 0-3, 3 is most aggressive
-MODEL_PATH = "whisper.cpp/models/ggml-medium.bin"  # Change if needed
-BEEP_PATH = "beep.wav"
 
+# Paths (based on running from core/)
+BASE_DIR = os.path.dirname(__file__)
+AUDIO_TEMP_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'audio', 'temporary'))
+AUDIO_PERM_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'audio', 'permanent'))
+WHISPER_CLI = os.path.abspath(os.path.join(BASE_DIR, '..', 'whisper.cpp', 'build', 'bin', 'whisper-cli'))
+MODEL_PATH = os.path.abspath(os.path.join(BASE_DIR, '..', 'whisper.cpp', 'models', 'ggml-medium.bin'))
+BEEP_PATH = os.path.join(AUDIO_PERM_DIR, 'beep.wav')
+
+# Ensure TEMP_DIR exists
+os.makedirs(AUDIO_TEMP_DIR, exist_ok=True)
 
 # === DEBUG PRINT FUNCTION ===
 def debug(msg):
@@ -38,7 +42,7 @@ def play_beep(path=BEEP_PATH):
 
 
 # === RECORD AUDIO USING VAD ===
-def vad_record(temp_filename="temp.wav"):
+def vad_record(audio_temp_path):
     debug("Setting up VAD and PyAudio")
     vad = webrtcvad.Vad(VAD_AGGRESSIVENESS)
     p = pyaudio.PyAudio()
@@ -77,9 +81,9 @@ def vad_record(temp_filename="temp.wav"):
     stream.stop_stream()
     stream.close()
     p.terminate()
-    debug("Saving audio to file")
+    debug("Saving audio to {audio_temp_path}")
 
-    wf = wave.open(temp_filename, 'wb')
+    wf = wave.open(audio_temp_path, 'wb')
     wf.setnchannels(CHANNELS)
     wf.setsampwidth(p.get_sample_size(FORMAT))
     wf.setframerate(RATE)
@@ -88,16 +92,16 @@ def vad_record(temp_filename="temp.wav"):
     debug("Audio saved successfully")
 
 
-def recognize_with_whisper_cpp(audio_file="temp.wav", model_path=MODEL_PATH):
-    debug(f"Running whisper.cpp with model {model_path} on file {audio_file}")
+def recognize_with_whisper_cpp(audio_path, model_path=MODEL_PATH):
+    debug(f"Running whisper.cpp with model {model_path} on file {audio_path}")
     
-    whisper_cli_path = os.path.abspath("./whisper.cpp/build/bin/whisper-cli")
-    output_txt_path = audio_file + ".txt"
+    # whisper_cli_path = os.path.abspath("./whisper.cpp/build/bin/whisper-cli")
+    output_txt_path = audio_path + ".txt"
 
     command = [
-        whisper_cli_path,
+        WHISPER_CLI,
         "-m", model_path,
-        "-f", audio_file,
+        "-f", audio_path,
         "-otxt",         # Output to text file
         "-l", "en",      # Language
         "-nt"            # No timestamps
@@ -126,13 +130,14 @@ def recognize_with_whisper_cpp(audio_file="temp.wav", model_path=MODEL_PATH):
 
 # === MAIN FUNCTION TO RECORD AND RECOGNIZE ===
 def recognize_speech():
-    temp_filename = f"temp_{uuid.uuid4().hex}.wav"
+    audio_temp_filename = f"temp_{uuid.uuid4().hex}.wav"
+    audio_temp_path = os.path.join(AUDIO_TEMP_DIR, audio_temp_filename)
     debug("=== Speech recognition started ===")
 
     try:
         play_beep()
-        vad_record(temp_filename)
-        result = recognize_with_whisper_cpp(temp_filename)
+        vad_record(audio_temp_path)
+        result = recognize_with_whisper_cpp(audio_temp_path)
         if result:
             print(f"✅ Recognized: {result}")
         else:
@@ -142,9 +147,9 @@ def recognize_speech():
         print(f"⚠️ Error during recognition: {e}")
         return None
     finally:
-        if os.path.exists(temp_filename):
-            os.remove(temp_filename)
-            debug("Temporary file removed")
+        if os.path.exists(audio_temp_path):
+            os.remove(audio_temp_path)
+            debug("Temporary audio file removed")
 
 
 # # === DIRECT RUNNER ===

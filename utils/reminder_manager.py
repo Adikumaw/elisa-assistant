@@ -1,39 +1,37 @@
 from TTS.api import TTS
 import simpleaudio as sa
-import logging
-import os
 import sys
+import os
 import json
 import subprocess
 from datetime import datetime
 from pytz import timezone
-from scheduler_core import scheduler  # ✅ Now this works cleanly
+from core.scheduler_core import scheduler  # ✅ Now this works cleanly
 
+# Base directory is the parent of utils/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-REMINDER_FILE = "reminders.json"
+REMINDER_FILE = os.path.join(BASE_DIR, "data", "reminders.json")
+RESPONSE_WAV = os.path.join(BASE_DIR, "audio", "temporary", "response.wav")
+NOTIFICATION_WAV = os.path.join(BASE_DIR, "audio", "permanent", "notification.wav")
+AUDIO_TEMP_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'audio', 'temporary'))
+
 
 def notify(response):
-
-    logging.getLogger("TTS").setLevel(logging.ERROR)  # Suppress info/debug logs
-    logging.getLogger("numba").setLevel(logging.WARNING)  # Suppress Numba warnings
     tts = TTS(model_name="tts_models/en/ljspeech/glow-tts", progress_bar=False)
-
-    output_file = "response.wav"
 
     # Redirect stdout and stderr to suppress logs
     with open(os.devnull, 'w') as f:
         old_stdout, old_stderr = sys.stdout, sys.stderr
         sys.stdout, sys.stderr = f, f
         try:
-            tts.tts_to_file(text=response, file_path=output_file)
+            tts.tts_to_file(text=response, file_path=RESPONSE_WAV)
         finally:
             sys.stdout, sys.stderr = old_stdout, old_stderr  # Restore stdout and stderr
 
     # Play the generated speech
-    sa.WaveObject.from_wave_file("notification.wav").play().wait_done()
-    sa.WaveObject.from_wave_file(output_file).play().wait_done()
-    # play_obj = wave_obj.play()
-    # play_obj.wait_done()
+    sa.WaveObject.from_wave_file(NOTIFICATION_WAV).play().wait_done()
+    sa.WaveObject.from_wave_file(RESPONSE_WAV).play().wait_done()
 
 def remind(task_name, early=False):
     msg = f"⏰ Reminder: '{task_name}'"
@@ -47,7 +45,7 @@ def remind(task_name, early=False):
 
     # Display a system notification (Linux)
     subprocess.run(['notify-send', 'Reminder', msg])
-    
+
     # Optionally, play a sound
     # subprocess.run(['aplay', '/path/to/sound.wav'])
 

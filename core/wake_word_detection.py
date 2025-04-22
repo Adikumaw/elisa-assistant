@@ -2,6 +2,7 @@ import pvporcupine
 import pyaudio
 import struct
 import time
+import os
 
 ACCESS_KEY = "CiQyXwvgpRzR1cQAtp2Uw6MZ1UcAricT5dOBgiWqSimZv/GE1z2khQ=="
 
@@ -11,10 +12,13 @@ def listen_for_wake_word(callback):
     stream = None
 
     try:
+        # Construct relative path to the .ppn file inside core/
+        keyword_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "elisa_en_linux_v3_0_0.ppn"))
+
         # Initialize Porcupine
         porcupine = pvporcupine.create(
             access_key=ACCESS_KEY,
-            keyword_paths=["/home/all_father/Documents/workshop/python/elisa-assistant/elisa_en_linux_v3_0_0.ppn"]
+            keyword_paths=[keyword_path]
         )
 
         # Initialize PyAudio

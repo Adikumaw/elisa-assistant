@@ -3,14 +3,15 @@ from voice_recognition import recognize_speech
 from rasa_integration import process_command
 from text_to_speech import speak_response
 import simpleaudio as sa
+import os
 
 def assistant_workflow():
 
     # play boot sound
     print("Playing boot sound...")
-    wave_obj = sa.WaveObject.from_wave_file("boot.wav")
-    play_obj = wave_obj.play()
-    play_obj.wait_done()
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    boot_path = os.path.join(base_dir, "../audio/permanent/boot.wav").replace("\\", "/")
+    sa.WaveObject.from_wave_file(boot_path).play().wait_done()
 
     # send greeting message to rasa
     responses, continue_conversation = process_command("wake up elisa")

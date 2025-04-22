@@ -1,8 +1,13 @@
 import yaml
 import random
+import os
+
+# Compute absolute path to responses.yml
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # root
+RESPONSES_PATH = os.path.join(BASE_DIR, "rasa", "data", "responses.yml")
 
 # Load YAML responses once
-with open("data/responses.yml", encoding='utf-8') as file:
+with open(RESPONSES_PATH, encoding='utf-8') as file:
     RESPONSES_YML = yaml.safe_load(file)
 
 def get_random_response(action: str, response_type: str, **kwargs) -> dict:
