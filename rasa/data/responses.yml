@@ -1,48 +1,53 @@
 action_meaning_of:
   success:
-    - "Here's what I found about '{word}': {meaning}"
-    - "The word '{word}' means: {meaning}"
-    - "Ah, '{word}'! It means: {meaning}"
-    - "Let me tell you! '{word}' stands for: {meaning}"
-    - "Sure! '{word}' can be defined as: {meaning}"
-    - "'{word}'—that's an interesting word! It means: {meaning}"
-  continue: false
+    responses:
+      - "Here's what I found about '{word}': {meaning}"
+      - "The word '{word}' means: {meaning}"
+      - "Ah, '{word}'! It means: {meaning}"
+      - "Let me tell you! '{word}' stands for: {meaning}"
+      - "Sure! '{word}' can be defined as: {meaning}"
+      - "'{word}'—that's an interesting word! It means: {meaning}"
+    continue: false
 
   offer_deep_dive:
-    - "Would you like to explore this word further in your browser?"
-    - "Want me to show you more about it online?"
-    - "Shall I open a detailed explanation in your browser?"
-    - "Do you want to see more examples or usage online?"
-    - "Need deeper insights on this word? I can open it for you."
-    - "Would you like me to fetch more info on it from the web?"
-    - "Should I take you to a page with more details?"
-    - "Want to learn more about this word in context?"
-    - "Shall I help you explore this word further?"
-    - "Do you want me to search it online for more info?"
-    - "Would you like to read more about it on the web?"
-    - "Should I open up a webpage with extended info?"
-  continue: true
+    responses:
+      - "Would you like to explore this word further in your browser?"
+      - "Want me to show you more about it online?"
+      - "Shall I open a detailed explanation in your browser?"
+      - "Do you want to see more examples or usage online?"
+      - "Need deeper insights on this word? I can open it for you."
+      - "Would you like me to fetch more info on it from the web?"
+      - "Should I take you to a page with more details?"
+      - "Want to learn more about this word in context?"
+      - "Shall I help you explore this word further?"
+      - "Do you want me to search it online for more info?"
+      - "Would you like to read more about it on the web?"
+      - "Should I open up a webpage with extended info?"
+    continue: true
 
   missing_word:
-    - "Could you please tell me the word you want the meaning of?"
-    - "I need a word to fetch its meaning. What do you want to know?"
-    - "Oops! I can't find a word. Can you provide one?"
-    - "Hmm, I need a word to look up. Please type it in!"
-    - "Give me a word, and I'll find its meaning for you!"
-  continue: false
+    responses:
+      - "Could you please tell me the word you want the meaning of?"
+      - "I need a word to fetch its meaning. What do you want to know?"
+      - "Oops! I can't find a word. Can you provide one?"
+      - "Hmm, I need a word to look up. Please type it in!"
+      - "Give me a word, and I'll find its meaning for you!"
+    continue: false
 
   disambiguation:
-    - "'{term}' has multiple meanings. Can you be more specific?"
-    - "Hmm, '{term}' could mean different things. Could you clarify?"
-    - "I found several meanings for '{term}'. Can you narrow it down?"
-    - "Which specific meaning of '{term}' are you looking for?"
-    - "'{term}' is a bit ambiguous. Can you tell me more?"
-  continue: false
+    responses:
+      - "'{term}' has multiple meanings. Can you be more specific?"
+      - "Hmm, '{term}' could mean different things. Could you clarify?"
+      - "I found several meanings for '{term}'. Can you narrow it down?"
+      - "Which specific meaning of '{term}' are you looking for?"
+      - "'{term}' is a bit ambiguous. Can you tell me more?"
+    continue: false
 
   not_found:
-    - "Sorry, I couldn't find a definition for '{term}'."
-    - "Hmm, I wasn't able to find any info on '{term}'."
-    - "No luck finding a definition for '{term}'."
-    - "'{term}' doesn't seem to have a result I can show."
-    - "I couldn't locate a proper definition for '{term}'."
-  continue: false
+    responses:
+      - "Sorry, I couldn't find a definition for '{term}'."
+      - "Hmm, I wasn't able to find any info on '{term}'."
+      - "No luck finding a definition for '{term}'."
+      - "'{term}' doesn't seem to have a result I can show."
+      - "I couldn't locate a proper definition for '{term}'."
+    continue: false

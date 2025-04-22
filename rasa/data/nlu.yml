@@ -186,6 +186,7 @@ nlu:
       - Can you look up [quantum computing basics](query)?
       - Research [how to invest in stocks](query)
       - Look for [upcoming Marvel movies](query)
+      - Look for [interstellar movie](query) on browser.
       - Tell me about [history of Linux](query)
       - Fetch results for [deep learning models](query)
       - Search for [Curse of Robert Doll movie](query)
@@ -222,6 +223,7 @@ nlu:
   - intent: type_what_i_say
     examples: |
       - Type [Hello World](text)
+      - Type what I say. [Hey, how are you?](text)
       - Type this: [I love coding](text)
       - Type [Life is beautiful](text)
       - Type [Hello how are you](text)

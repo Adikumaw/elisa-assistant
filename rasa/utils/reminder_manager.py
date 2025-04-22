@@ -6,14 +6,14 @@ import json
 import subprocess
 from datetime import datetime
 from pytz import timezone
-from core.scheduler_core import scheduler  # ✅ Now this works cleanly
+from scheduler_core import scheduler  # ✅ Now this works cleanly
 
 # Base directory is the parent of utils/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # /rasa
 
 REMINDER_FILE = os.path.join(BASE_DIR, "data", "reminders.json")
-RESPONSE_WAV = os.path.join(BASE_DIR, "audio", "temporary", "response.wav")
-NOTIFICATION_WAV = os.path.join(BASE_DIR, "audio", "permanent", "notification.wav")
+RESPONSE_WAV = os.path.join(BASE_DIR, "..", "audio", "temporary", "response.wav")
+NOTIFICATION_WAV = os.path.join(BASE_DIR, "..", "audio", "permanent", "notification.wav")
 AUDIO_TEMP_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'audio', 'temporary'))
 
 

@@ -8,7 +8,7 @@ def speak_response(response):
     tts = TTS(model_name="tts_models/en/ljspeech/glow-tts", progress_bar=False)
 
     # Create the directory if it doesn't exist
-    output_dir = os.path.join(os.path.dirname(__file__), '..', 'audio', 'temprory')
+    output_dir = os.path.join(os.path.dirname(__file__), '..', 'audio', 'temporary')
     os.makedirs(output_dir, exist_ok=True)
 
     # Set the full path to the output file
