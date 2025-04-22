@@ -2,16 +2,17 @@ import sys
 import os
 from TTS.api import TTS
 import simpleaudio as sa
-import logging
-
 
 def speak_response(response):
 
-    logging.getLogger("TTS").setLevel(logging.ERROR)  # Suppress info/debug logs
-    logging.getLogger("numba").setLevel(logging.WARNING)  # Suppress Numba warnings
     tts = TTS(model_name="tts_models/en/ljspeech/glow-tts", progress_bar=False)
 
-    output_file = "response.wav"
+    # Create the directory if it doesn't exist
+    output_dir = os.path.join(os.path.dirname(__file__), '..', 'audio', 'temprory')
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Set the full path to the output file
+    output_file = os.path.join(output_dir, "response.wav")
 
     # Redirect stdout and stderr to suppress logs
     with open(os.devnull, 'w') as f:
@@ -24,5 +25,3 @@ def speak_response(response):
 
     # Play the generated speech
     sa.WaveObject.from_wave_file(output_file).play().wait_done()
-    # play_obj = wave_obj.play()
-    # play_obj.wait_done()
