@@ -10,5 +10,6 @@ venv/
 tests/
 response.wav
 whisper.cpp/
+whisper.cpp
 reminder_jobs.sqlite
 models/

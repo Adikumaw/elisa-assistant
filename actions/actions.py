@@ -5,7 +5,10 @@ from rasa_sdk.events import SlotSet
 import webbrowser
 import wikipedia
 import os
-from utils import open_application, fetch_weather, get_user_location, load_reminders, save_reminders, schedule_reminder
+from utils.app_launcher import open_application
+from utils.weather_info import fetch_weather, get_user_location
+from utils.reminder_manager import load_reminders, save_reminders, schedule_reminder, remove_reminder
+from utils.response_loader import get_random_response
 from datetime import datetime, timedelta, timezone
 import random
 from typing import Any, Text, Dict, List
@@ -137,44 +140,29 @@ class ActionMeaningOf(Action):
         return "action_meaning_of"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
-        term = tracker.get_slot("words")
+        word = tracker.get_slot("words")
 
-        if term:
+        if word:
             try:
                 # Fetch a short summary from Wikipedia
-                meaning = wikipedia.summary(term, sentences=1)
+                meaning = wikipedia.summary(word, sentences=1)
 
-                # Randomized responses
-                responses = [
-                    f"Here's what I found: {meaning}",
-                    f"The word '{term}' means: {meaning}",
-                    f"Ah, '{term}'! It means: {meaning}",
-                    f"Let me tell you! '{term}' stands for: {meaning}",
-                    f"Sure! '{term}' can be defined as: {meaning}",
-                    f"'{term}'—that's an interesting word! It means: {meaning}"
-                ]
-                dispatcher.utter_message(json_message={"text": random.choice(responses), "continue": False})
+                # Randomized response for the meaning
+                dispatcher.utter_message(json_message=get_random_response("action_meaning_of", "success", word=word, meaning=meaning))
 
                 # Ask if user wants to know more
-                dispatcher.utter_message(json_message={"text": "Would you like to read more details?",  "continue": True})
+                dispatcher.utter_message(json_message=get_random_response("action_meaning_of", "offer_deep_dive"))
 
-                SlotSet("last_word", term)
+                SlotSet("last_word", word)
 
             except wikipedia.exceptions.DisambiguationError as e:
-                dispatcher.utter_message(json_message={"text": f"'{term}' has multiple meanings. Can you be more specific?", "continue": False})
+                dispatcher.utter_message(json_message=get_random_response("action_meaning_of", "disambiguation"))
             except wikipedia.exceptions.PageError:
-                dispatcher.utter_message(json_message={"text": f"Sorry, I couldn't find a definition for '{term}'.", "continue": False})
+                dispatcher.utter_message(json_message=get_random_response("action_meaning_of", "not_found"))
 
         else:
             # Randomized response when the word is missing
-            fallback_responses = [
-                "Could you please tell me the word you want the meaning of?",
-                "I need a word to fetch its meaning. What do you want to know?",
-                "Oops! I can't find a word. Can you provide one?",
-                "Hmm, I need a word to look up. Please type it in!",
-                "Give me a word, and I'll find its meaning for you!"
-            ]
-            dispatcher.utter_message(json_message={"text": random.choice(fallback_responses), "continue": False})
+            dispatcher.utter_message(json_message=get_random_response("action_meaning_of", "missing_word"))
 
         return []
 
@@ -318,17 +306,23 @@ class ActionRemoveReminder(Action):
             dispatcher.utter_message(text="You don't have any reminders set.")
             return []
 
-        # 🧠 Use fuzzy matching to find the best match
         task_names = list(reminders.keys())
-        best_match = difflib.get_close_matches(task, task_names, n=1, cutoff=0.5)  # cutoff = confidence threshold
+        best_match = difflib.get_close_matches(task, task_names, n=1, cutoff=0.5)
 
         if best_match:
             matched_task = best_match[0]
+
+            # ❌ Remove from reminder list
             reminders.pop(matched_task)
             save_reminders(reminders)
+
+            # ❌ Remove scheduled jobs
+            remove_reminder(matched_task)
+
             dispatcher.utter_message(text=f"✅ Removed the reminder for '{matched_task}'.")
         else:
             dispatcher.utter_message(text="❌ Couldn't find any matching reminder.")
+
         return []
 
 class ActionUpdateReminder(Action):

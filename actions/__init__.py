@@ -1,6 +1,6 @@
 # actions/__init__.py
 from scheduler_core import scheduler
-from utils import load_reminders, schedule_reminder
+from utils.reminder_manager import load_reminders, schedule_reminder
 from datetime import datetime, timezone
 
 # Re-schedule all existing reminders

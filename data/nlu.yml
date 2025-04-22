@@ -99,6 +99,8 @@ nlu:
   - intent: repeat_after_me
     examples: |
       - can you repeat [this is crazy](query)
+      - can you repeat [banti bhosadi wala hai](query)
+      - Repeat after me [Priya tu pagal hai kya gawaar ladki](query)
       - say [hello world](query)
       - please repeat [what I just said](query)
       - could you say [you are my best friend](query)

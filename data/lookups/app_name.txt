@@ -1,6 +1,0 @@
-chrome
-firefox
-notepad
-word
-vs code
-sublime text

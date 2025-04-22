@@ -31,6 +31,8 @@ entities:
   - task_name
   - time
   - TIME
+  - DATE
+  - PERSON
 
 slots:
   app_name:
