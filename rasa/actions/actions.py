@@ -66,17 +66,31 @@ class ActionCreateFile(Action):
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
         file_name = tracker.get_slot("file_name")
-        directory = os.getcwd()
+         # directory = os.getcwd() # Old way
+        
+        # New way: use user's Documents folder
+        home_dir = os.path.expanduser("~")
+        documents_dir = os.path.join(home_dir, "Documents") # Common, but not guaranteed on all systems/languages
+        
+        # Create Documents directory if it doesn't exist (optional, good practice)
+        if not os.path.exists(documents_dir):
+            try:
+                os.makedirs(documents_dir)
+            except OSError as e:
+                # Fallback to current working directory if Documents can't be made
+                print(f"Warning: Could not create Documents directory ({e}). Using current directory.")
+                documents_dir = os.getcwd()
+        
+        directory_to_use = documents_dir
         
         if file_name:
+            file_path = os.path.join(directory_to_use, file_name)
             try:
-                with open(os.path.join(directory, file_name), 'w') as file:
-                    file.write("New file created.")
-                dispatcher.utter_message(json_message={"text": f"Created file: {file_name}", "continue": False})
+                with open(file_path, 'w') as file:
+                    file.write(f"File '{file_name}' created by Elisa Assistant at {datetime.now()}.\n")
+                dispatcher.utter_message(json_message={"text": f"Created file: {file_name} in your Documents folder.", "continue": False})
             except Exception as e:
                 dispatcher.utter_message(json_message={"text": f"Failed to create file: {file_name}. Error: {str(e)}", "continue": False})
-        else:
-            dispatcher.utter_message(json_message={"text": "I need a valid file name to create a file.", "continue": False})
         
         return []
 

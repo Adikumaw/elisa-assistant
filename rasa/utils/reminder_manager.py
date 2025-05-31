@@ -7,6 +7,8 @@ import subprocess
 from datetime import datetime
 from pytz import timezone
 from scheduler_core import scheduler  # ✅ Now this works cleanly
+import platform
+import shutil
 
 # Base directory is the parent of utils/
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # /rasa
@@ -43,11 +45,41 @@ def remind(task_name, early=False):
     print(msg)
     # You can add system notification or audio here too
 
-    # Display a system notification (Linux)
-    subprocess.run(['notify-send', 'Reminder', msg])
+    os_platform = platform.system().lower()
+    try:
+        if os_platform == "linux":
+            # Check if notify-send is available
+            if shutil.which("notify-send"):
+                 subprocess.run(['notify-send', 'Elisa Reminder', msg], timeout=5)
+            else:
+                print("notify-send command not found for Linux desktop notification.")
+        elif os_platform == "windows":
+            # For Windows, we can use PowerShell's BurntToast module (requires user install)
+            # or a simpler solution using 'msg *' (for local user, might be intrusive)
+            # or a more complex solution with win10toast_click or similar libraries.
+            # Simplest fallback: just print to console and rely on audio notification.
+            # Example using a library (if you choose to add one like 'plyer'):
+            # from plyer import notification
+            # notification.notify(title='Elisa Reminder', message=msg, app_name='Elisa Assistant', timeout=10)
+            print("Desktop notification for Windows: Consider using a library like 'plyer' or 'win10toast' for richer notifications.")
+            # Basic attempt with powershell (might not always work without specific setup)
+            try:
+                ps_command = f'powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.MessageBox]::Show(\'{msg}\', \'Elisa Reminder\')"'
+                # subprocess.run(ps_command, shell=True, timeout=5, check=False) # This creates a modal dialog, maybe not ideal
+                # For toast, more complex, e.g. using a helper script or BurntToast
+            except Exception as e_ps:
+                print(f"PowerShell notification attempt failed: {e_ps}")
 
-    # Optionally, play a sound
-    # subprocess.run(['aplay', '/path/to/sound.wav'])
+        elif os_platform == "darwin": # macOS
+             # Check if terminal-notifier is available (brew install terminal-notifier)
+            if shutil.which("terminal-notifier"):
+                subprocess.run(['terminal-notifier', '-title', 'Elisa Reminder', '-message', msg], timeout=5)
+            else: # Fallback to osascript
+                subprocess.run(['osascript', '-e', f'display notification "{msg}" with title "Elisa Reminder"'], timeout=5)
+        else:
+            print(f"Desktop notifications not configured for OS: {os_platform}")
+    except Exception as e:
+        print(f"Error sending desktop notification: {e}")
 
 def load_reminders():
     if not os.path.exists(REMINDER_FILE):
