@@ -13,3 +13,5 @@ whisper.cpp/
 whisper.cpp
 reminder_jobs.sqlite
 models/
+**.log
+/audio/temporary/

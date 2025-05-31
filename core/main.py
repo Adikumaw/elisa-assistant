@@ -8,7 +8,7 @@ import os
 import time
 
 # Create UI logger for this module
-ui_logger = create_ui_logger("WakeWord")
+ui_logger = create_ui_logger("Main")
 
 def assistant_workflow():
 
@@ -23,14 +23,14 @@ def assistant_workflow():
     boot_path = os.path.join(base_dir, "../audio/permanent/boot.wav").replace("\\", "/")
     try:
         sa.WaveObject.from_wave_file(boot_path).play().wait_done()
-        ui_logger.log_success("Boot sound completed")
+        # ui_logger.log_success("Boot sound completed")
     except Exception as e:
         ui_logger.log_error(f"Failed to play boot sound: {str(e)}")
 
     # =============================== GREETING =============================
     # Set UI to processing state for Rasa greeting
     ui_logger.set_state("processing")
-    ui_logger.log_info("Sending greeting message to Rasa...")
+    ui_logger.log_info("starting Greeting Sequence...")
     
     # Send greeting message to rasa
     try:
@@ -53,18 +53,16 @@ def assistant_workflow():
     ui_logger.log_success("Greeting sequence completed")
 
     # ================================ LISTEN FOR COMMAND =============================
-
     # Keep listening while the conversation is ongoing
     while True:
 
         # Set UI to listening state
-        ui_logger.set_state("listening")
-        ui_logger.log_info("Listening for command...")
         # Recognize speech after the wake word is detected
         # Give three chances to recognize the command
         command = None
         for attempt in range(3):
-            ui_logger.log_info(f"Attempt {attempt + 1} to recognize command...")
+            ui_logger.log_info("Setting up Voice Recognition...")
+            # ui_logger.log_info(f"Attempt {attempt + 1} to recognize command...")
             
             try:
                 command = recognize_speech()
@@ -77,7 +75,6 @@ def assistant_workflow():
                         ui_logger.set_state("speaking")
                         ui_logger.log_info("Speaking retry message...")
                         speak_response("I couldn't hear you. Please try again.")
-                        ui_logger.set_state("listening")
             except Exception as e:
                 ui_logger.log_error(f"Error during speech recognition: {str(e)}")
         
@@ -113,6 +110,7 @@ def assistant_workflow():
         
         if not continue_conversation:
             ui_logger.log_info("No further conversation needed - ending session")
+            ui_logger.set_state("idle")
             break  # Exit loop if no further conversation is needed
         else:
             ui_logger.log_info("Conversation continuing...")

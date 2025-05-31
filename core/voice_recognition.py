@@ -6,6 +6,10 @@ import subprocess
 import simpleaudio as sa
 import uuid
 import os
+from websocket import create_ui_logger
+
+# Create UI logger for this module
+ui_logger = create_ui_logger("VoiceRecognition")
 
 # === CONFIGURABLE SETTINGS ===
 RATE = 16000
@@ -136,7 +140,11 @@ def recognize_speech():
 
     try:
         play_beep()
+        ui_logger.set_state("listening")
+        ui_logger.log_info("Starting voice recording...")
         vad_record(audio_temp_path)
+        ui_logger.log_success(f"Audio recorded successfully...")
+        ui_logger.set_state("processing")
         result = recognize_with_whisper_cpp(audio_temp_path)
         if result:
             print(f"✅ Recognized: {result}")
