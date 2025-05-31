@@ -27,7 +27,7 @@ def notify(response):
         try:
             tts.tts_to_file(text=response, file_path=RESPONSE_WAV)
         finally:
-            sys.stdout, sys.stderr = old_stdout, old_stderr  # Restore stdout and stderr
+            sys.stdout, sys.stderr = old_stdout, old_stderr  # Restore stdout and stderr 
 
     # Play the generated speech
     sa.WaveObject.from_wave_file(NOTIFICATION_WAV).play().wait_done()

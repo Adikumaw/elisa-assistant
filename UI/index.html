@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Elisa Assistant</title>
+    <link rel="stylesheet"
+          href="/UI/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-panel">
+            <div class="background-effects"
+                 id="backgroundEffects"></div>
+
+            <div class="header">
+                <div class="logo">E</div>
+                <h1 class="title">Elisa Assistant</h1>
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span id="systemStatus">System Active</span>
+                </div>
+            </div>
+
+            <div class="central-area">
+                <div class="assistant-core">
+                    <div class="core-circle"
+                         id="coreCircle">
+                        <div class="inner-circle">
+                            <div class="core-icon"
+                                 id="coreIcon">🎧</div>
+                        </div>
+                    </div>
+                    <div class="status-text"
+                         id="statusText">Waiting for wake word...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="logs-panel">
+            <div class="logs-header">
+                <span class="logs-title">System Logs</span>
+                <div style="margin-left: auto; opacity: 0.6;">●</div>
+            </div>
+            <div class="logs-content"
+                 id="logsContent">
+                <!-- Logs will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/UI/js/brain.js"></script>
+
+</body>
+
+</html>
